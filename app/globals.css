@@ -1,0 +1,239 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   R&M SERVICES GROUP LTD — DESIGN SYSTEM
+   Brand reference: official R&M logo + company flyer (blue / navy / white /
+   light neutral). Modernised for the web, logo itself unchanged.
+   ========================================================================== */
+
+@theme {
+  /* --- Brand: navy (authority) -------------------------------------- */
+  --color-navy-50: #f2f6fb;
+  --color-navy-100: #e2ebf6;
+  --color-navy-200: #c3d5eb;
+  --color-navy-300: #94b3d9;
+  --color-navy-400: #5d89c1;
+  --color-navy-500: #3a67a5;
+  --color-navy-600: #2a4e85;
+  --color-navy-700: #1f3c6a;
+  --color-navy-800: #14294a;
+  --color-navy-900: #0b1b33;
+  --color-navy-950: #061021;
+
+  /* --- Brand: primary blue (from the logo background) ---------------- */
+  --color-brand-50: #eef6ff;
+  --color-brand-100: #d9ebff;
+  --color-brand-200: #bcdcff;
+  --color-brand-300: #8ec6ff;
+  --color-brand-400: #59a6fd;
+  --color-brand-500: #3184f8;
+  --color-brand-600: #1665e0;
+  --color-brand-700: #0f51bb;
+  --color-brand-800: #124497;
+  --color-brand-900: #143c78;
+  --color-brand-950: #0d2649;
+
+  /* --- Accent: restrained gold (used sparingly for emphasis) --------- */
+  --color-gold-100: #f8efd7;
+  --color-gold-300: #e6cd8d;
+  --color-gold-400: #d6b45c;
+  --color-gold-500: #c29a34;
+  --color-gold-600: #a37c25;
+
+  /* --- Neutrals ------------------------------------------------------ */
+  --color-ink: #0f1b2d;
+  --color-ink-soft: #3d4a5c;
+  --color-muted: #5f6e83;
+  --color-line: #e3e8ef;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f6f8fb;
+
+  /* --- Typography ---------------------------------------------------- */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: var(--font-display), Georgia, "Times New Roman", serif;
+
+  /* --- Radius -------------------------------------------------------- */
+  --radius-card: 0.875rem;
+
+  /* --- Shadows ------------------------------------------------------- */
+  --shadow-soft: 0 1px 2px rgba(11, 27, 51, 0.04),
+    0 8px 24px -12px rgba(11, 27, 51, 0.12);
+  --shadow-lift: 0 2px 4px rgba(11, 27, 51, 0.05),
+    0 18px 40px -18px rgba(11, 27, 51, 0.24);
+
+  /* --- Motion -------------------------------------------------------- */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-fade-up: fade-up 0.6s var(--ease-out-soft) both;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-navy-900);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Visible, consistent keyboard focus everywhere. */
+  :focus-visible {
+    outline: 3px solid var(--color-brand-600);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-600);
+    color: #fff;
+  }
+}
+
+@layer components {
+  .container-rm {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 80rem;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-rm {
+      padding-inline: 2rem;
+    }
+  }
+
+  .section {
+    padding-block: 4rem;
+  }
+
+  @media (min-width: 768px) {
+    .section {
+      padding-block: 5.5rem;
+    }
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-brand-700);
+  }
+
+  .prose-rm p {
+    margin-block: 1rem;
+    color: var(--color-ink-soft);
+  }
+
+  .prose-rm h2 {
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.5rem;
+  }
+
+  .prose-rm h3 {
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.175rem;
+  }
+
+  .prose-rm ul {
+    margin-block: 1rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .prose-rm li {
+    position: relative;
+    padding-left: 1.5rem;
+    color: var(--color-ink-soft);
+  }
+
+  .prose-rm li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.65em;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 9999px;
+    background-color: var(--color-brand-600);
+  }
+
+  .prose-rm a {
+    color: var(--color-brand-700);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Subtle brand pattern used behind dark sections instead of stock photos */
+  .pattern-grid {
+    background-image: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.06) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+}
+
+/* Respect users who prefer less motion. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
