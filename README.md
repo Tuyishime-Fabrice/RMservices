@@ -55,6 +55,47 @@ requests, WhatsApp, phone, email and physical office visits — not online alone
 Almost every page is statically generated. Only the two form endpoints are
 dynamic, so the site is fast and cheap to host.
 
+## Navigation
+
+Six top-level items instead of eight. Nothing was deleted and no URL changed —
+the two busiest sections became dropdowns, so every page is at most two steps
+away.
+
+```
+Home | About | Services ▾ | Resources ▾ | Contact        [WhatsApp] [Get assistance]
+```
+
+**Services** opens a panel with the five service groups:
+
+| Group | Services |
+|---|---|
+| Business Registration & Company Changes | Business Registration, Company Amendments |
+| Tax, Accounting & Financial Reporting | Tax Advisory & Compliance, Accounting & Bookkeeping, Financial Reporting Consultancy |
+| Investment & Business Support | Investment Certificate Processing, Business Support Consultancy |
+| Immigration & Resident Permit Assistance | Immigration & Resident Permit Assistance |
+| Irembo & Administrative Services | Conformity Letter Applications, Irembo Services |
+
+…plus **All services** and **Investors & expatriates**, which used to be a
+top-level link and now sits with the services it relates to. `/investors-expatriates`
+is unchanged and still linked from the footer and the services it supports.
+
+**Resources** opens a short panel with **Guides & articles** (`/resources`) and
+**Frequently asked questions** (`/faqs`).
+
+**Online Assistance** is no longer a nav link — it is the destination of the
+**Get assistance** button, which appears in the header, in the mobile menu, on
+every service page and in every call to action.
+
+The same five groups drive the services directory, the homepage and the footer,
+because `content/navigation.ts` is generated from `content/services.ts`. Add a
+service there and it appears in all four places.
+
+Dropdowns open on hover only on devices that actually hover; on touch they open
+on tap, which avoids the usual bug where a tap opens and instantly re-closes the
+panel. They close on Escape, on outside click, and when focus leaves. ArrowDown
+moves focus from the trigger into the panel. On mobile they become collapsible
+sections inside the menu.
+
 ## Folder structure
 
 ```
@@ -77,17 +118,18 @@ app/
   sitemap.ts  robots.ts  manifest.ts  opengraph-image.tsx  not-found.tsx
 
 components/
-  layout/     navbar, footer, analytics loader, floating WhatsApp
+  layout/     navbar, nav-dropdown, footer, analytics loader
   sections/   page-hero, service-card, service-grid, service-filter,
-              trust-stats, how-it-works, cta-section, office-card,
+              trust-stats, how-it-works, cta-section, office-card, brochure,
               faq-accordion, blog-card, post-cover, testimonials
   forms/      service-inquiry-form, contact-form
   ui/         button, card, badge, field (input/select/textarea/radio/honeypot),
               accordion, breadcrumbs, logo, reveal, json-ld, service-icon,
-              media-placeholder, tracked-link, whatsapp-button, section-heading
+              tracked-link, whatsapp-button, section-heading
 
 content/      ← edit the website here, not in the components
-  site.ts       Company details, contacts, offices, navigation, trust figures
+  site.ts       Company details, contacts, offices, photographs, trust figures
+  navigation.ts The menu, generated from the service catalogue
   services.ts   All 10 services (cards, pages, FAQs, SEO, form options)
   posts.ts      Resource articles
   faqs.ts       Site-wide FAQs
@@ -102,6 +144,7 @@ lib/
   utils.ts      cn(), date formatting, reference generation
 
 public/brand/   Logo (see public/brand/README.md before launch)
+public/photos/  R&M's own photographs (see public/photos/README.md)
 ```
 
 ## Installation
@@ -206,6 +249,18 @@ from the server component above it. `ServiceSummary` and `serviceSummaries`
 exist for exactly this: they carry the handful of fields a card or filter
 renders. The same applies to `content/posts.ts`.
 
+## Photographs
+
+Every photograph on the site is R&M's own. No stock imagery is used anywhere,
+and nothing is generated. `public/photos/README.md` records what each file
+shows, where it appears, and why the fourth supplied photograph is not
+published.
+
+Images go through `next/image` with explicit dimensions (so nothing shifts
+while the page loads) and `sizes` hints (so phones do not download desktop-sized
+files). The hero photograph loads eagerly because it is the largest element
+above the fold; everything else is lazy.
+
 ## Deployment
 
 **Vercel (recommended)**
@@ -228,13 +283,27 @@ it is not a static export.
 
 ## Domain configuration
 
-1. Vercel → *Settings → Domains* → add `rmservicesgroup.rw` and
-   `www.rmservicesgroup.rw`.
-2. At the registrar, point the records Vercel shows (usually an `A` record for
-   the apex and a `CNAME` for `www`).
-3. Choose one canonical host and redirect the other (Vercel does this for you).
-4. Set `NEXT_PUBLIC_SITE_URL` to the canonical URL, then redeploy so canonical
-   tags, the sitemap and social metadata all agree.
+The site currently canonicalises to **`https://r-mservices.vercel.app`**, the
+hostname it is actually served from.
+
+`content/site.ts` resolves the public origin in this order:
+
+1. `NEXT_PUBLIC_SITE_URL`, if set
+2. Vercel's production hostname for the project
+3. the default above
+
+That order matters: a deployment never canonicalises to a domain that might not
+resolve yet, which would quietly tell search engines to index a dead address.
+
+**When a custom domain goes live:**
+
+1. Vercel → *Settings → Domains* → add the apex and `www`.
+2. At the registrar, add the records Vercel shows.
+3. Pick one canonical host and let Vercel redirect the other.
+4. Set `NEXT_PUBLIC_SITE_URL` to it and redeploy — canonical tags, the sitemap,
+   `robots.txt`, Open Graph tags and structured data all move together.
+5. Keep the Vercel hostname redirecting to the new domain so existing links and
+   anything already indexed still resolve.
 
 ## Google Search Console
 

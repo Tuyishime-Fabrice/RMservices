@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { siteConfig, contact, offices } from "@/content/site";
+import { siteConfig, contact, offices, photos } from "@/content/site";
+import { services } from "@/content/services";
 
 export function absoluteUrl(path = "/") {
   return `${siteConfig.url}${path.startsWith("/") ? path : `/${path}`}`;
@@ -56,8 +57,11 @@ export function pageMetadata({
 
 /**
  * LocalBusiness / ProfessionalService description of R&M.
- * Street addresses are intentionally omitted until confirmed — publishing an
- * unverified address would be worse than publishing none.
+ *
+ * Only verified facts appear here, and everything in it is also visible on the
+ * site itself. Street addresses and opening hours are deliberately omitted
+ * because they have not been confirmed — an unverified address does more harm
+ * to local search than none at all. No reviews or ratings are included.
  */
 export function organizationJsonLd() {
   return {
@@ -69,6 +73,8 @@ export function organizationJsonLd() {
     url: siteConfig.url,
     description: siteConfig.description,
     slogan: siteConfig.tagline,
+    logo: absoluteUrl("/brand/rm-logo.svg"),
+    image: absoluteUrl(photos.officeEntrance.src),
     areaServed: { "@type": "Country", name: "Rwanda" },
     address: {
       "@type": "PostalAddress",
@@ -95,7 +101,27 @@ export function organizationJsonLd() {
         areaServed: "RW",
         availableLanguage: ["English"],
       },
+      {
+        "@type": "ContactPoint",
+        telephone: contact.phoneSecondaryDisplay,
+        contactType: "customer service",
+        areaServed: "RW",
+        availableLanguage: ["English"],
+      },
     ],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Business, financial and administrative services in Rwanda",
+      itemListElement: services.map((service) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: service.name,
+          description: service.summary,
+          url: absoluteUrl(`/services/${service.slug}`),
+        },
+      })),
+    },
   };
 }
 
@@ -174,6 +200,7 @@ export function articleJsonLd(input: {
     author: { "@type": "Organization", name: input.author },
     publisher: { "@id": `${siteConfig.url}/#organization` },
     mainEntityOfPage: absoluteUrl(input.path),
+    image: absoluteUrl("/opengraph-image"),
     inLanguage: "en",
   };
 }

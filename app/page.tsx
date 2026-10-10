@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   ShieldCheck,
@@ -15,7 +16,6 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 import { TrackedAnchor, TrackedLink } from "@/components/ui/tracked-link";
-import { MediaPlaceholder } from "@/components/ui/media-placeholder";
 import { TrustStats } from "@/components/sections/trust-stats";
 import { CategorisedServices } from "@/components/sections/service-grid";
 import { HowItWorks } from "@/components/sections/how-it-works";
@@ -23,7 +23,7 @@ import { OfficeCard } from "@/components/sections/office-card";
 import { BlogCard } from "@/components/sections/blog-card";
 import { CTASection } from "@/components/sections/cta-section";
 import { Testimonials } from "@/components/sections/testimonials";
-import { siteConfig, contact, offices } from "@/content/site";
+import { siteConfig, contact, offices, photos, visitNote } from "@/content/site";
 import { sortedPosts } from "@/content/posts";
 import { pageMetadata } from "@/lib/seo";
 
@@ -94,15 +94,16 @@ export default function HomePage() {
                 Kigali, Rwanda · Remote &amp; in-person support
               </Badge>
               <h1 id="hero-heading" className="mt-5 text-[2.1rem] leading-[1.1] text-white sm:text-[3rem] lg:text-[3.4rem]">
-                Your Trusted Business &amp; Compliance Partner in Rwanda
+                Business Registration &amp; Compliance Services in Rwanda
               </h1>
               <p className="mt-5 font-display text-xl text-brand-200 sm:text-2xl">
                 Helping Businesses Start, Grow &amp; Stay Compliant.
               </p>
               <p className="mt-5 max-w-xl text-[1.0625rem] leading-relaxed text-navy-100/85">
-                R&amp;M Services Group Ltd provides professional business, financial and
-                administrative support for entrepreneurs, businesses, investors, expatriates and the
-                Rwandan diaspora in Rwanda.
+                R&amp;M Services Group Ltd is your trusted business and compliance partner in
+                Rwanda. We help entrepreneurs, companies, foreign investors, expatriates and the
+                Rwandan diaspora register a business, stay on top of tax and accounting, and handle
+                the permits and Irembo applications that come with operating here.
               </p>
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -148,13 +149,17 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Hero visual: brand-led, not a generic stock photo. */}
+            {/* Hero visual: R&M's own premises in Kigali. */}
             <div className="relative">
               <div className="rounded-card border border-white/10 bg-white/[0.04] p-4 shadow-lift backdrop-blur-sm">
-                <MediaPlaceholder
-                  label="R&M team supporting a client at the Kigali office"
-                  ratio="aspect-[4/3]"
-                  className="border-white/10"
+                <Image
+                  src={photos.officeEntrance.src}
+                  alt={photos.officeEntrance.alt}
+                  width={photos.officeEntrance.width}
+                  height={photos.officeEntrance.height}
+                  priority
+                  sizes="(min-width: 1024px) 40vw, (min-width: 640px) 80vw, 92vw"
+                  className="w-full rounded-[0.6rem] border border-white/10 object-cover"
                 />
                 <dl className="mt-4 grid grid-cols-2 gap-3">
                   <div className="rounded-xl border border-white/10 bg-navy-900 p-4">
@@ -328,11 +333,26 @@ export default function HomePage() {
                   </TrackedAnchor>
                 </Button>
               </div>
-              <p className="mt-5 text-sm text-muted">
-                Opening hours: {contact.openingHours}
-              </p>
+              <p className="mt-5 text-sm text-ink-soft">{visitNote}</p>
+              <Reveal className="mt-8">
+                <figure>
+                  <Image
+                    src={photos.team.src}
+                    alt={photos.team.alt}
+                    width={photos.team.width}
+                    height={photos.team.height}
+                    loading="lazy"
+                    sizes="(min-width: 1024px) 44vw, 92vw"
+                    className="w-full rounded-card border border-line object-cover shadow-soft"
+                  />
+                  <figcaption className="mt-3 text-sm text-muted">
+                    Our team at work in Kigali. Walk in, or start online and we will take it from
+                    there.
+                  </figcaption>
+                </figure>
+              </Reveal>
             </div>
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
               {offices.map((office, index) => (
                 <Reveal key={office.id} delay={index * 80} className="h-full">
                   <OfficeCard office={office} />

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { JsonLd } from "@/components/ui/json-ld";
 import { TrackedAnchor } from "@/components/ui/tracked-link";
 import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
-import { contact, offices } from "@/content/site";
+import { contact, offices, visitNote } from "@/content/site";
 import { serviceInquiryOptions } from "@/content/services";
 
 export const metadata = pageMetadata({
@@ -110,14 +110,14 @@ export default function OnlineAssistancePage() {
                       <MapPin className="mt-0.5 size-4 shrink-0 text-brand-700" aria-hidden="true" />
                       <span>
                         <span className="block font-semibold text-navy-900">{office.name}</span>
-                        <span className="block text-xs text-muted">{office.addressPlaceholder}</span>
+                        <span className="block text-xs text-muted">{office.locality}</span>
                       </span>
                     </li>
                   ))}
                 </ul>
                 <p className="mt-4 flex items-start gap-2 text-xs text-muted">
                   <Clock3 className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
-                  Opening hours: {contact.openingHours}
+                  {visitNote}
                 </p>
               </div>
 

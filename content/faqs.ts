@@ -19,7 +19,7 @@ export const faqGroups: FaqGroup[] = [
       {
         question: "Where is R&M located?",
         answer:
-          "We are based in Kigali, Rwanda, with two offices: RDB New Headquarters and KABC. Exact office details are listed on our Contact page.",
+          "We are based in Kigali, Rwanda, with two offices: RDB New Headquarters and KABC. Call or message us before visiting and we will make sure the right person is available for you — our contact page has the details and a photograph of our entrance.",
       },
       {
         question: "Is R&M a government agency?",
@@ -61,11 +61,6 @@ export const faqGroups: FaqGroup[] = [
         question: "What does it cost to work with R&M?",
         answer:
           "Fees depend on what you need, so we discuss them with you directly once we understand your request. We work transparently and there are no hidden fees. We do not publish price lists, because an honest figure depends on your specific situation.",
-      },
-      {
-        question: "What languages do you work in?",
-        answer:
-          "[CONFIRM LANGUAGES OFFERED — e.g. English, Kinyarwanda, French]",
       },
     ],
   },

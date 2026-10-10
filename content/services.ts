@@ -13,9 +13,10 @@
 
 export type ServiceCategoryId =
   | "business-registration"
-  | "tax-financial"
-  | "business-support"
-  | "administrative-immigration";
+  | "tax-accounting"
+  | "investment-support"
+  | "immigration-permits"
+  | "irembo-admin";
 
 export type ServiceCategory = {
   id: ServiceCategoryId;
@@ -26,27 +27,33 @@ export type ServiceCategory = {
 export const serviceCategories: ServiceCategory[] = [
   {
     id: "business-registration",
-    name: "Business & Registration",
+    name: "Business Registration & Company Changes",
     description:
-      "Getting your company correctly registered and keeping its official details up to date.",
+      "Get your company registered, and keep its official record accurate when ownership, management or activities change.",
   },
   {
-    id: "tax-financial",
-    name: "Tax & Financial",
+    id: "tax-accounting",
+    name: "Tax, Accounting & Financial Reporting",
     description:
-      "Day-to-day tax, accounting and financial reporting support for businesses of every size.",
+      "Tax registration and declarations, books that stay current, and financial reports you can put in front of a bank or partner.",
   },
   {
-    id: "business-support",
-    name: "Business Support",
+    id: "investment-support",
+    name: "Investment & Business Support",
     description:
-      "Practical guidance for owners and managers who need a professional second opinion.",
+      "Investment registration support, and an experienced second opinion on how your business is set up and what to do next.",
   },
   {
-    id: "administrative-immigration",
-    name: "Administrative & Immigration",
+    id: "immigration-permits",
+    name: "Immigration & Resident Permit Assistance",
     description:
-      "Application support for conformity letters, permits, visas and Irembo services.",
+      "Application support for resident permits and visas — for you, your family, or the staff you are bringing to Rwanda.",
+  },
+  {
+    id: "irembo-admin",
+    name: "Irembo & Administrative Services",
+    description:
+      "Irembo applications and conformity letters, prepared correctly and followed up until you have an answer.",
   },
 ];
 
@@ -229,7 +236,7 @@ export const services: Service[] = [
     slug: "investment-certificate-processing",
     name: "Investment Certificate Processing",
     inquiryValue: "Investment Certificate Processing",
-    category: "business-registration",
+    category: "investment-support",
     icon: "badge-check",
     summary:
       "Application support for investment registration and investment certificate processing in Rwanda.",
@@ -292,7 +299,7 @@ export const services: Service[] = [
     slug: "tax-advisory-compliance",
     name: "Tax Advisory & Compliance",
     inquiryValue: "Tax Advisory & Compliance",
-    category: "tax-financial",
+    category: "tax-accounting",
     icon: "receipt",
     summary:
       "Tax registration, declarations and ongoing compliance support so your business stays in good standing.",
@@ -363,7 +370,7 @@ export const services: Service[] = [
     slug: "accounting-bookkeeping",
     name: "Accounting & Bookkeeping",
     inquiryValue: "Accounting & Bookkeeping",
-    category: "tax-financial",
+    category: "tax-accounting",
     icon: "calculator",
     summary:
       "Organised books and reliable records, so you always know where your business stands.",
@@ -428,7 +435,7 @@ export const services: Service[] = [
     slug: "financial-reporting",
     name: "Financial Reporting Consultancy",
     inquiryValue: "Financial Reporting",
-    category: "tax-financial",
+    category: "tax-accounting",
     icon: "line-chart",
     summary:
       "Consultancy support for preparing and understanding your company's financial reports.",
@@ -485,10 +492,10 @@ export const services: Service[] = [
     slug: "business-support-consultancy",
     name: "Business Support Consultancy",
     inquiryValue: "Business Support Consultancy",
-    category: "business-support",
+    category: "investment-support",
     icon: "compass",
     summary:
-      "Practical business advisory support for owners and managers making decisions about their company.",
+      "An experienced second opinion on how your business is set up, what it needs next, and in what order.",
     metaTitle: "Business Support Consultancy Rwanda | R&M Group",
     metaDescription:
       "Business advisory and support consultancy for entrepreneurs and companies in Rwanda. Practical guidance from R&M in Kigali.",
@@ -543,10 +550,10 @@ export const services: Service[] = [
     slug: "conformity-letter-applications",
     name: "Conformity Letter Applications",
     inquiryValue: "Conformity Letter Applications",
-    category: "administrative-immigration",
+    category: "irembo-admin",
     icon: "file-check",
     summary:
-      "Application support for conformity letters, prepared carefully and followed through.",
+      "We prepare your conformity letter application, submit it, and follow it up until there is an answer.",
     metaTitle: "Conformity Letter Applications Rwanda | R&M Group",
     metaDescription:
       "Assistance preparing and submitting conformity letter applications in Rwanda. Professional administrative support from R&M, Kigali.",
@@ -600,7 +607,7 @@ export const services: Service[] = [
     slug: "immigration-resident-permit-assistance",
     name: "Immigration & Resident Permit Assistance",
     inquiryValue: "Immigration & Resident Permit Assistance",
-    category: "administrative-immigration",
+    category: "immigration-permits",
     icon: "plane",
     summary:
       "Assistance with visa and resident permit applications for expatriates, investors and their families.",
@@ -663,7 +670,7 @@ export const services: Service[] = [
     slug: "irembo-services",
     name: "Irembo Services",
     inquiryValue: "Irembo Services",
-    category: "administrative-immigration",
+    category: "irembo-admin",
     icon: "monitor-smartphone",
     summary:
       "Help completing Irembo applications for visas, permits and other administrative services.",

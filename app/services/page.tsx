@@ -4,6 +4,7 @@ import { PageHero } from "@/components/sections/page-hero";
 import { ServiceFilter } from "@/components/sections/service-filter";
 import { CTASection } from "@/components/sections/cta-section";
 import { HowItWorks } from "@/components/sections/how-it-works";
+import { BrochureSection } from "@/components/sections/brochure";
 import { JsonLd } from "@/components/ui/json-ld";
 import { TrackedAnchor, TrackedLink } from "@/components/ui/tracked-link";
 import { pageMetadata, breadcrumbJsonLd, absoluteUrl } from "@/lib/seo";
@@ -80,7 +81,9 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <HowItWorks className="bg-surface-soft" />
+      <BrochureSection className="bg-surface-soft" />
+
+      <HowItWorks />
 
       <CTASection
         location="services"

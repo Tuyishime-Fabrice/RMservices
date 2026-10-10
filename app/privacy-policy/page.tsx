@@ -16,6 +16,9 @@ const trail = [
   { name: "Privacy Policy", href: "/privacy-policy" },
 ];
 
+/** Update whenever the policy text changes. */
+const LAST_UPDATED = "10 October 2026";
+
 export default function PrivacyPolicyPage() {
   return (
     <>
@@ -29,20 +32,13 @@ export default function PrivacyPolicyPage() {
 
       <section className="section">
         <div className="container-rm max-w-3xl">
-          <div className="rounded-card border border-dashed border-gold-300 bg-gold-100/50 p-5">
-            <p className="text-sm font-semibold text-navy-900">
-              [LEGAL REVIEW REQUIRED BEFORE LAUNCH]
-            </p>
-            <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-              This policy describes what the website actually does today, and is written as a
-              starting point. It must be reviewed and approved by R&amp;M Services Group Ltd —
-              and, where appropriate, by a qualified adviser — to confirm it meets the company&rsquo;s
-              obligations under Rwandan data protection law before the site goes live.
-            </p>
-          </div>
-
-          <div className="prose-rm mt-10">
-            <p className="text-sm text-muted">Last updated: [CONFIRM DATE AT LAUNCH]</p>
+          {/*
+            This policy describes exactly what the website does. R&M should have
+            it reviewed by a qualified adviser against its obligations under
+            Rwandan data protection law — see CONTENT-CHECKLIST.md.
+          */}
+          <div className="prose-rm">
+            <p className="text-sm text-muted">Last updated: {LAST_UPDATED}</p>
 
             <h2>Who we are</h2>
             <p>
@@ -95,20 +91,26 @@ export default function PrivacyPolicyPage() {
 
             <h2>Analytics</h2>
             <p>
-              If website analytics are enabled, we may collect anonymous information about how pages
-              are used — for example which pages are viewed and which buttons are clicked — so we can
-              improve the site. This does not identify you personally.
-              [CONFIRM WHICH ANALYTICS TOOL IS USED AND UPDATE THIS SECTION.]
+              This website can use Google Analytics to collect anonymous statistics about how pages
+              are used — for example which pages are viewed, and which buttons are clicked — so that
+              we can improve the site. This information does not identify you personally, and IP
+              addresses are anonymised. When analytics are not switched on, no analytics scripts are
+              loaded at all.
             </p>
 
             <h2>How long we keep it</h2>
-            <p>[CONFIRM R&amp;M&rsquo;S RETENTION PERIOD FOR ENQUIRY RECORDS.]</p>
+            <p>
+              We keep enquiry records for as long as we need them to respond to you, to carry out
+              any work you ask us to do, and to keep a proper record of that work. We do not keep
+              them longer than our professional and legal obligations require.
+            </p>
 
             <h2>Your choices</h2>
             <p>
               You can ask us what information we hold about you, ask us to correct it, or ask us to
-              delete it, by contacting us using the details below. [CONFIRM THE PROCESS R&amp;M WILL
-              FOLLOW FOR SUCH REQUESTS.]
+              delete it. Contact us using the details below and tell us what you would like us to
+              do. We will confirm that we have received your request, tell you what we are able to
+              do, and act on it.
             </p>
 
             <h2>Contact us about privacy</h2>

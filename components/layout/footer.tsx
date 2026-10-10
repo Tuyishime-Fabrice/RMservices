@@ -3,7 +3,7 @@ import { Phone, Mail, MapPin, MessageCircle, ArrowUpRight } from "lucide-react";
 import { LogoMark } from "@/components/ui/logo";
 import { TrackedAnchor } from "@/components/ui/tracked-link";
 import { siteConfig, contact, offices, socialLinks } from "@/content/site";
-import { services } from "@/content/services";
+import { getFooterServiceGroups } from "@/content/navigation";
 import { whatsappUrl, defaultWhatsappMessage } from "@/lib/whatsapp";
 
 const quickLinks = [
@@ -55,30 +55,35 @@ export function Footer() {
                   </li>
                 ))}
               </ul>
-            ) : (
-              <p className="mt-5 rounded-lg border border-dashed border-white/20 px-3 py-2 text-xs text-navy-100/60">
-                [ADD OFFICIAL SOCIAL MEDIA LINKS]
-              </p>
-            )}
+            ) : null}
           </div>
 
-          {/* Services */}
+          {/* Services, grouped exactly as they are in the main menu */}
           <nav aria-labelledby="footer-services" className="lg:col-span-3">
             <h2 id="footer-services" className="text-sm font-semibold uppercase tracking-[0.14em] text-white">
               Services
             </h2>
-            <ul className="mt-4 grid gap-2.5">
-              {services.map((service) => (
-                <li key={service.slug}>
-                  <Link
-                    href={`/services/${service.slug}`}
-                    className="text-sm text-navy-100/80 underline-offset-4 transition-colors hover:text-white hover:underline"
-                  >
-                    {service.name}
-                  </Link>
-                </li>
+            <div className="mt-4 grid gap-5">
+              {getFooterServiceGroups().map((group) => (
+                <div key={group.href}>
+                  <h3 className="text-xs font-semibold uppercase tracking-[0.1em] text-brand-200">
+                    {group.title}
+                  </h3>
+                  <ul className="mt-2 grid gap-2">
+                    {group.links.map((link) => (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          className="text-sm text-navy-100/80 underline-offset-4 transition-colors hover:text-white hover:underline"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
-            </ul>
+            </div>
           </nav>
 
           {/* Quick links */}
@@ -161,7 +166,7 @@ export function Footer() {
                   <MapPin className="mt-0.5 size-4 shrink-0 text-brand-300" aria-hidden="true" />
                   <span>
                     <span className="block font-medium text-white">{office.name}</span>
-                    <span className="block text-xs text-navy-100/60">{office.addressPlaceholder}</span>
+                    <span className="block text-xs text-navy-100/70">{office.locality}</span>
                   </span>
                 </li>
               ))}

@@ -8,9 +8,9 @@ import { Button } from "@/components/ui/button";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 import { JsonLd } from "@/components/ui/json-ld";
 import { TrackedAnchor } from "@/components/ui/tracked-link";
-import { MediaPlaceholder } from "@/components/ui/media-placeholder";
+import Image from "next/image";
 import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
-import { contact, offices } from "@/content/site";
+import { contact, offices, photos, visitNote } from "@/content/site";
 
 export const metadata = pageMetadata({
   title: "Contact Us in Kigali, Rwanda | R&M Services Group",
@@ -115,22 +115,22 @@ export default function ContactPage() {
                 </span>
                 <h3 className="mt-5 text-lg font-semibold text-navy-900">Visit an office</h3>
                 <p className="mt-2 text-[0.9375rem] text-ink-soft">
-                  RDB New Headquarters and KABC, Kigali. Call ahead if your matter is specific.
+                  RDB New Headquarters and KABC, Kigali. You are welcome to walk in.
                 </p>
                 <p className="mt-auto flex items-start gap-1.5 pt-4 text-xs text-muted">
                   <Clock3 className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
-                  {contact.openingHours}
+                  Call or message us first and we will have the right person ready.
                 </p>
               </div>
             </li>
           </ul>
 
-          <p className="mt-6 flex items-start gap-2.5 rounded-card border border-dashed border-brand-200 bg-brand-50/50 px-5 py-4 text-sm text-navy-900">
+          <p className="mt-6 flex items-start gap-2.5 rounded-card border border-line bg-surface-soft px-5 py-4 text-sm text-ink-soft">
             <Info className="mt-0.5 size-4 shrink-0 text-brand-700" aria-hidden="true" />
             <span>
-              Phone numbers and the email address above are taken from the official R&amp;M company
-              flyer. <strong>[CONFIRM CONTACT DETAILS BEFORE LAUNCH]</strong> — including the
-              official WhatsApp number and a company-domain email address if one is in use.
+              R&amp;M Services Group Ltd is a private professional services company. We prepare,
+              guide and support applications — we are not a government agency, and official
+              decisions are made by the responsible Rwandan authority.
             </span>
           </p>
         </div>
@@ -178,16 +178,20 @@ export default function ContactPage() {
             </div>
 
             <div className="mt-6 rounded-card border border-line bg-white p-6 shadow-soft">
-              <h3 className="text-lg font-semibold text-navy-900">Find us</h3>
+              <h3 className="text-lg font-semibold text-navy-900">Look for this entrance</h3>
               <p className="mt-2 text-sm text-ink-soft">
-                A map will be added here once the exact office addresses are confirmed. We do not
-                publish an unverified address or map pin.
+                Our banner stands beside the door, so you will know you are in the right place.
+                {" "}
+                {visitNote}
               </p>
-              <MediaPlaceholder
-                label="Map of R&M office locations — [CONFIRM ADDRESSES FIRST]"
-                tone="soft"
-                ratio="aspect-[16/9]"
-                className="mt-4"
+              <Image
+                src={photos.officeEntrance.src}
+                alt={photos.officeEntrance.alt}
+                width={photos.officeEntrance.width}
+                height={photos.officeEntrance.height}
+                loading="lazy"
+                sizes="(min-width: 1024px) 45vw, 92vw"
+                className="mt-4 w-full rounded-card border border-line object-cover"
               />
               <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
                 <WhatsAppButton location="contact-offices" full />

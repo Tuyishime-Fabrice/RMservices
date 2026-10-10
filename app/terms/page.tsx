@@ -16,6 +16,9 @@ const trail = [
   { name: "Terms of Use", href: "/terms" },
 ];
 
+/** Update whenever the terms change. */
+const LAST_UPDATED = "10 October 2026";
+
 export default function TermsPage() {
   return (
     <>
@@ -29,18 +32,13 @@ export default function TermsPage() {
 
       <section className="section">
         <div className="container-rm max-w-3xl">
-          <div className="rounded-card border border-dashed border-gold-300 bg-gold-100/50 p-5">
-            <p className="text-sm font-semibold text-navy-900">
-              [LEGAL REVIEW REQUIRED BEFORE LAUNCH]
-            </p>
-            <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-              These terms are a starting point that reflects how the website works. They must be
-              reviewed and approved by R&amp;M Services Group Ltd before the site goes live.
-            </p>
-          </div>
-
-          <div className="prose-rm mt-10">
-            <p className="text-sm text-muted">Last updated: [CONFIRM DATE AT LAUNCH]</p>
+          {/*
+            These terms reflect how the website actually works. R&M should have
+            them reviewed by a qualified adviser before relying on them — see
+            CONTENT-CHECKLIST.md.
+          */}
+          <div className="prose-rm">
+            <p className="text-sm text-muted">Last updated: {LAST_UPDATED}</p>
 
             <h2>About this website</h2>
             <p>
@@ -107,10 +105,19 @@ export default function TermsPage() {
             </p>
 
             <h2>Liability</h2>
-            <p>[CONFIRM LIABILITY WORDING WITH R&amp;M AND ITS LEGAL ADVISER.]</p>
+            <p>
+              We take care to keep this website accurate and available, but we cannot guarantee that
+              it will always be error-free or uninterrupted. The content here is general
+              information, and we are not responsible for decisions taken solely on the basis of it
+              without speaking to us about your own situation. Nothing in these terms limits any
+              liability that cannot lawfully be limited.
+            </p>
 
             <h2>Governing law</h2>
-            <p>[CONFIRM GOVERNING LAW AND JURISDICTION WORDING — expected to be Rwanda.]</p>
+            <p>
+              These terms are governed by the laws of Rwanda, and any dispute relating to this
+              website falls to the courts of Rwanda.
+            </p>
 
             <h2>Contact</h2>
             <p>

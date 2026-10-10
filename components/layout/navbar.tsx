@@ -3,17 +3,20 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Phone, Mail, ArrowRight, MessageCircle } from "lucide-react";
+import { Menu, X, Phone, Mail, ArrowRight, MessageCircle, ChevronDown } from "lucide-react";
 import { Logo } from "@/components/ui/logo";
 import { Button } from "@/components/ui/button";
+import { NavDropdown } from "@/components/layout/nav-dropdown";
 import { TrackedAnchor, TrackedLink } from "@/components/ui/tracked-link";
-import { navigation, contact } from "@/content/site";
+import type { NavItem } from "@/content/navigation";
+import { contact } from "@/content/site";
 import { whatsappUrl, defaultWhatsappMessage } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
-export function Navbar() {
+export function Navbar({ items }: { items: NavItem[] }) {
   const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
+  const [openSection, setOpenSection] = React.useState<string | null>(null);
   const [scrolled, setScrolled] = React.useState(false);
 
   // Close the mobile menu on navigation. Adjusting state during render is the
@@ -22,6 +25,7 @@ export function Navbar() {
   if (lastPath !== pathname) {
     setLastPath(pathname);
     if (open) setOpen(false);
+    if (openSection) setOpenSection(null);
   }
 
   React.useEffect(() => {
@@ -46,8 +50,11 @@ export function Navbar() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
+  const isActive = (href: string) => {
+    const path = href.split("#")[0];
+    if (path === "/") return pathname === "/";
+    return pathname === path || pathname.startsWith(`${path}/`);
+  };
 
   return (
     <header className="sticky top-0 z-50">
@@ -55,7 +62,7 @@ export function Navbar() {
       <div className="hidden bg-navy-950 text-navy-100 lg:block">
         <div className="container-rm flex h-10 items-center justify-between text-[0.8125rem]">
           <p className="text-navy-100/80">
-            Business, financial &amp; administrative services in Kigali, Rwanda
+            Business registration, tax, accounting and permit services in Kigali, Rwanda
           </p>
           <div className="flex items-center gap-5">
             <TrackedAnchor
@@ -89,30 +96,36 @@ export function Navbar() {
         <div className="container-rm flex h-[4.5rem] items-center justify-between gap-3 xl:px-6">
           <Logo size={44} />
 
-          <nav aria-label="Main" className="hidden xl:block">
+          <nav aria-label="Main" className="hidden lg:block">
             <ul className="flex items-center gap-0.5">
-              {navigation.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    aria-current={isActive(item.href) ? "page" : undefined}
-                    className={cn(
-                      "relative block whitespace-nowrap rounded-md px-2 py-2 text-[0.875rem] font-medium transition-colors 2xl:px-2.5 2xl:text-[0.9375rem]",
-                      isActive(item.href)
-                        ? "text-brand-800"
-                        : "text-ink-soft hover:bg-navy-50 hover:text-navy-900",
-                    )}
-                  >
-                    {item.label}
-                    {isActive(item.href) ? (
-                      <span
-                        aria-hidden="true"
-                        className="absolute inset-x-2 -bottom-0.5 h-0.5 rounded-full bg-brand-700"
-                      />
-                    ) : null}
-                  </Link>
-                </li>
-              ))}
+              {items.map((item) =>
+                item.kind === "menu" ? (
+                  <li key={item.label}>
+                    <NavDropdown item={item} isActive={isActive} />
+                  </li>
+                ) : (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      aria-current={isActive(item.href) ? "page" : undefined}
+                      className={cn(
+                        "relative block whitespace-nowrap rounded-md px-2 py-2 text-[0.875rem] font-medium transition-colors 2xl:px-2.5 2xl:text-[0.9375rem]",
+                        isActive(item.href)
+                          ? "text-brand-800"
+                          : "text-ink-soft hover:bg-navy-50 hover:text-navy-900",
+                      )}
+                    >
+                      {item.label}
+                      {isActive(item.href) ? (
+                        <span
+                          aria-hidden="true"
+                          className="absolute inset-x-2 -bottom-0.5 h-0.5 rounded-full bg-brand-700"
+                        />
+                      ) : null}
+                    </Link>
+                  </li>
+                ),
+              )}
             </ul>
           </nav>
 
@@ -159,7 +172,7 @@ export function Navbar() {
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="inline-flex size-11 items-center justify-center rounded-lg border border-line text-navy-900 transition-colors hover:bg-navy-50 xl:hidden"
+              className="inline-flex size-11 items-center justify-center rounded-lg border border-line text-navy-900 transition-colors hover:bg-navy-50 lg:hidden"
             >
               {open ? <X className="size-5" aria-hidden="true" /> : <Menu className="size-5" aria-hidden="true" />}
             </button>
@@ -167,31 +180,121 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile / tablet menu */}
+      {/* Mobile / tablet menu. Dropdowns become collapsible sections so the
+          panel stays short enough to scan without endless scrolling. */}
       <div
         id="mobile-menu"
         hidden={!open}
-        className="max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-b border-line bg-white shadow-lift xl:hidden"
+        className="max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-b border-line bg-white shadow-lift lg:hidden"
       >
         <nav aria-label="Mobile" className="container-rm py-4">
           <ul className="grid gap-1">
-            {navigation.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  aria-current={isActive(item.href) ? "page" : undefined}
-                  className={cn(
-                    "flex items-center justify-between rounded-lg px-3 py-3 text-base font-medium transition-colors",
-                    isActive(item.href)
-                      ? "bg-brand-50 text-brand-800"
-                      : "text-navy-900 hover:bg-navy-50",
-                  )}
-                >
-                  {item.label}
-                  <ArrowRight className="size-4 text-muted" aria-hidden="true" />
-                </Link>
-              </li>
-            ))}
+            {items.map((item) => {
+              if (item.kind === "link") {
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      aria-current={isActive(item.href) ? "page" : undefined}
+                      className={cn(
+                        "flex items-center justify-between rounded-lg px-3 py-3 text-base font-medium transition-colors",
+                        isActive(item.href)
+                          ? "bg-brand-50 text-brand-800"
+                          : "text-navy-900 hover:bg-navy-50",
+                      )}
+                    >
+                      {item.label}
+                      <ArrowRight className="size-4 text-muted" aria-hidden="true" />
+                    </Link>
+                  </li>
+                );
+              }
+
+              const sectionOpen = openSection === item.label;
+              const sectionId = `mobile-section-${item.label.toLowerCase()}`;
+              return (
+                <li key={item.label}>
+                  <button
+                    type="button"
+                    aria-expanded={sectionOpen}
+                    aria-controls={sectionId}
+                    onClick={() => setOpenSection(sectionOpen ? null : item.label)}
+                    className="flex w-full items-center justify-between rounded-lg px-3 py-3 text-base font-medium text-navy-900 transition-colors hover:bg-navy-50"
+                  >
+                    {item.label}
+                    <ChevronDown
+                      aria-hidden="true"
+                      className={cn(
+                        "size-4 text-muted transition-transform duration-200",
+                        sectionOpen && "rotate-180",
+                      )}
+                    />
+                  </button>
+                  <div id={sectionId} hidden={!sectionOpen} className="pb-2 pl-3">
+                    {item.groups?.map((group) => (
+                      <div key={group.href} className="mt-2">
+                        <Link
+                          href={group.href}
+                          className="flex min-h-11 items-center rounded-lg px-3 text-xs font-semibold uppercase tracking-[0.08em] text-brand-700 transition-colors hover:bg-navy-50"
+                        >
+                          {group.title}
+                        </Link>
+                        <ul>
+                          {group.links.map((link) => (
+                            <li key={link.href}>
+                              <Link
+                                href={link.href}
+                                aria-current={isActive(link.href) ? "page" : undefined}
+                                className={cn(
+                                  "block rounded-lg px-3 py-2.5 text-[0.9375rem] transition-colors hover:bg-navy-50",
+                                  isActive(link.href)
+                                    ? "font-semibold text-brand-800"
+                                    : "text-ink-soft",
+                                )}
+                              >
+                                {link.label}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                    {item.links ? (
+                      <ul className="mt-1">
+                        {item.links.map((link) => (
+                          <li key={link.href}>
+                            <Link
+                              href={link.href}
+                              aria-current={isActive(link.href) ? "page" : undefined}
+                              className={cn(
+                                "block rounded-lg px-3 py-2.5 text-[0.9375rem] transition-colors hover:bg-navy-50",
+                                isActive(link.href) ? "font-semibold text-brand-800" : "text-ink-soft",
+                              )}
+                            >
+                              {link.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                    {item.featured ? (
+                      <ul className="mt-1 border-t border-line pt-1">
+                        {item.featured.map((link) => (
+                          <li key={link.href}>
+                            <Link
+                              href={link.href}
+                              className="block rounded-lg px-3 py-2.5 text-[0.9375rem] font-semibold text-navy-900 transition-colors hover:bg-navy-50"
+                            >
+                              {link.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
 
           <div className="mt-4 grid gap-2 border-t border-line pt-4">

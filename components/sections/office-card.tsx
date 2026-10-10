@@ -15,11 +15,11 @@ export function OfficeCard({ office, className }: { office: Office; className?: 
           <Badge tone="navy">Kigali office</Badge>
         </div>
         <h3 className="mt-5 text-lg font-semibold text-navy-900">{office.name}</h3>
-        <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-soft">{office.note}</p>
-        <p className="mt-4 flex items-start gap-2 rounded-lg border border-dashed border-brand-200 bg-brand-50/60 px-3 py-2.5 text-sm text-brand-900">
-          <MapPin className="mt-0.5 size-4 shrink-0 text-brand-700" aria-hidden="true" />
-          <span>{office.addressPlaceholder}</span>
+        <p className="mt-1 flex items-center gap-1.5 text-sm font-medium text-brand-700">
+          <MapPin className="size-4 shrink-0" aria-hidden="true" />
+          {office.locality}
         </p>
+        <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-soft">{office.note}</p>
       </div>
     </Card>
   );

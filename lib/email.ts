@@ -29,7 +29,7 @@ export type StaffEmailInput = {
   replyTo?: string;
 };
 
-const FALLBACK_STAFF_EMAIL = "irembordbd@gmail.com";
+const FALLBACK_STAFF_EMAIL = "irembordb@gmail.com";
 
 export function emailConfig() {
   return {

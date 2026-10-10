@@ -6,12 +6,12 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { TrustStats } from "@/components/sections/trust-stats";
 import { OfficeCard } from "@/components/sections/office-card";
 import { CTASection } from "@/components/sections/cta-section";
-import { MediaPlaceholder } from "@/components/ui/media-placeholder";
+import Image from "next/image";
 import { JsonLd } from "@/components/ui/json-ld";
 import { TrackedLink } from "@/components/ui/tracked-link";
 import { Reveal } from "@/components/ui/reveal";
 import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
-import { offices } from "@/content/site";
+import { offices, photos, visitNote, siteConfig } from "@/content/site";
 import { serviceCategories, servicesByCategory } from "@/content/services";
 
 export const metadata = pageMetadata({
@@ -115,6 +115,10 @@ export default function AboutPage() {
               with clear communication and no hidden fees. Whether you are starting, managing or
               expanding a business in Rwanda, R&amp;M Group is your trusted partner.
             </p>
+            <blockquote className="my-6 border-l-2 border-brand-600 pl-5 text-[1.0625rem] italic leading-relaxed text-navy-900">
+              {siteConfig.brochureSummary}
+            </blockquote>
+
             <h3>What that means in practice</h3>
             <p>
               Most of our clients come to us at a moment when something needs to be done properly:
@@ -130,11 +134,22 @@ export default function AboutPage() {
           </div>
 
           <div className="grid gap-5">
-            <MediaPlaceholder
-              label="R&M office in Kigali — exterior or reception"
-              tone="soft"
-              ratio="aspect-[4/3]"
-            />
+            <figure>
+              <Image
+                src={photos.team.src}
+                alt={photos.team.alt}
+                width={photos.team.width}
+                height={photos.team.height}
+                loading="lazy"
+                sizes="(min-width: 1024px) 42vw, 92vw"
+                className="w-full rounded-card border border-line object-cover shadow-soft"
+              />
+              <figcaption className="mt-3 text-sm text-ink-soft">
+                <span className="font-semibold text-navy-900">The people behind our services.</span>{" "}
+                When you contact R&amp;M, a member of this team reads your request and follows it
+                through.
+              </figcaption>
+            </figure>
             <div className="rounded-card border border-line bg-surface-soft p-6">
               <h3 className="text-lg font-semibold text-navy-900">Experience</h3>
               <dl className="mt-4 grid grid-cols-2 gap-4">
@@ -259,7 +274,8 @@ export default function AboutPage() {
               <OfficeCard key={office.id} office={office} />
             ))}
           </div>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <p className="mt-6 text-sm text-ink-soft">{visitNote}</p>
+          <div className="mt-6 flex flex-wrap gap-3">
             <Button asChild size="lg">
               <Link href="/contact">
                 <Building2 aria-hidden="true" />
