@@ -198,6 +198,14 @@ Everything routine is data, not markup:
 - **Change a phone number, office or stat** → `content/site.ts`.
 - **Add an FAQ** → `content/faqs.ts` (also feeds FAQ structured data).
 
+**One rule when editing components:** a client component (`"use client"`)
+must not import *values* from `content/services.ts` — doing so bundles the
+whole catalogue, including every service page's prose, FAQs and SEO copy, into
+the browser's JavaScript. Import the **type** only and take the data as a prop
+from the server component above it. `ServiceSummary` and `serviceSummaries`
+exist for exactly this: they carry the handful of fields a card or filter
+renders. The same applies to `content/posts.ts`.
+
 ## Deployment
 
 **Vercel (recommended)**

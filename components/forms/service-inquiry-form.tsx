@@ -20,7 +20,6 @@ import { Card } from "@/components/ui/card";
 import { track } from "@/lib/analytics";
 import { urgentWhatsappMessage } from "@/lib/whatsapp";
 import { contact } from "@/content/site";
-import { serviceInquiryOptions } from "@/content/services";
 import {
   validateInquiry,
   contactMethods,
@@ -58,13 +57,13 @@ const emptyForm: FormState = {
 
 type Success = { reference: string; delivered: boolean; service: string; name: string; urgency: string };
 
-function InquiryFormInner() {
+function InquiryFormInner({ serviceOptions }: { serviceOptions: string[] }) {
   const searchParams = useSearchParams();
   const preselected = searchParams.get("service") ?? "";
 
   const [form, setForm] = React.useState<FormState>({
     ...emptyForm,
-    service: serviceInquiryOptions.includes(preselected) ? preselected : "",
+    service: serviceOptions.includes(preselected) ? preselected : "",
   });
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [status, setStatus] = React.useState<"idle" | "submitting" | "error">("idle");
@@ -79,7 +78,7 @@ function InquiryFormInner() {
   const [lastPreselected, setLastPreselected] = React.useState(preselected);
   if (lastPreselected !== preselected) {
     setLastPreselected(preselected);
-    if (preselected && serviceInquiryOptions.includes(preselected)) {
+    if (preselected && serviceOptions.includes(preselected)) {
       setForm((prev) => ({ ...prev, service: preselected }));
     }
   }
@@ -102,7 +101,7 @@ function InquiryFormInner() {
     event.preventDefault();
     setFormError(null);
 
-    const issues = validateInquiry(form, serviceInquiryOptions);
+    const issues = validateInquiry(form, serviceOptions);
     if (Object.keys(issues).length > 0) {
       setErrors(issues);
       setStatus("error");
@@ -359,7 +358,7 @@ function InquiryFormInner() {
             onChange={(event) => update("service", event.target.value)}
           >
             <option value="">Choose a service…</option>
-            {serviceInquiryOptions.map((option) => (
+            {serviceOptions.map((option) => (
               <option key={option} value={option}>
                 {option}
               </option>
@@ -539,7 +538,7 @@ function InquiryFormInner() {
   );
 }
 
-export function ServiceInquiryForm() {
+export function ServiceInquiryForm({ serviceOptions }: { serviceOptions: string[] }) {
   return (
     <React.Suspense
       fallback={
@@ -550,7 +549,7 @@ export function ServiceInquiryForm() {
         </div>
       }
     >
-      <InquiryFormInner />
+      <InquiryFormInner serviceOptions={serviceOptions} />
     </React.Suspense>
   );
 }

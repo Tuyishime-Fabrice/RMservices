@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Search, X } from "lucide-react";
 import { ServiceCard } from "@/components/sections/service-card";
-import { serviceCategories, services, type ServiceCategoryId } from "@/content/services";
+import type { ServiceCategory, ServiceCategoryId, ServiceSummary } from "@/content/services";
 import { cn } from "@/lib/utils";
 
 /**
@@ -11,7 +11,13 @@ import { cn } from "@/lib/utils";
  * The full list is rendered server-side first, so the page is useful without
  * JavaScript and indexable by search engines.
  */
-export function ServiceFilter() {
+export function ServiceFilter({
+  services,
+  serviceCategories,
+}: {
+  services: ServiceSummary[];
+  serviceCategories: ServiceCategory[];
+}) {
   const [query, setQuery] = React.useState("");
   const [category, setCategory] = React.useState<ServiceCategoryId | "all">("all");
 

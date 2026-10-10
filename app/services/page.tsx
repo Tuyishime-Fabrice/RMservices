@@ -7,7 +7,7 @@ import { HowItWorks } from "@/components/sections/how-it-works";
 import { JsonLd } from "@/components/ui/json-ld";
 import { TrackedAnchor, TrackedLink } from "@/components/ui/tracked-link";
 import { pageMetadata, breadcrumbJsonLd, absoluteUrl } from "@/lib/seo";
-import { services } from "@/content/services";
+import { services, serviceSummaries, serviceCategories } from "@/content/services";
 import { contact } from "@/content/site";
 
 export const metadata = pageMetadata({
@@ -76,7 +76,7 @@ export default function ServicesPage() {
           <h2 id="service-directory-heading" className="sr-only">
             Service directory
           </h2>
-          <ServiceFilter />
+          <ServiceFilter services={serviceSummaries} serviceCategories={serviceCategories} />
         </div>
       </section>
 

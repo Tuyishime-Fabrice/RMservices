@@ -9,6 +9,7 @@ import { JsonLd } from "@/components/ui/json-ld";
 import { TrackedAnchor } from "@/components/ui/tracked-link";
 import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import { contact, offices } from "@/content/site";
+import { serviceInquiryOptions } from "@/content/services";
 
 export const metadata = pageMetadata({
   title: "Get Assistance Online | R&M Services Group",
@@ -46,7 +47,7 @@ export default function OnlineAssistancePage() {
                 commit you to anything — it simply starts a conversation with our team.
               </p>
               <div className="mt-8">
-                <ServiceInquiryForm />
+                <ServiceInquiryForm serviceOptions={serviceInquiryOptions} />
               </div>
             </div>
 

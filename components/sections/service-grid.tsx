@@ -1,6 +1,6 @@
 import { ServiceCard } from "@/components/sections/service-card";
 import { Reveal } from "@/components/ui/reveal";
-import { serviceCategories, servicesByCategory, type Service } from "@/content/services";
+import { serviceCategories, servicesByCategory, type ServiceSummary } from "@/content/services";
 import { cn } from "@/lib/utils";
 
 export function ServiceGrid({
@@ -8,7 +8,7 @@ export function ServiceGrid({
   className,
   columns = 3,
 }: {
-  services: Service[];
+  services: ServiceSummary[];
   className?: string;
   columns?: 2 | 3;
 }) {

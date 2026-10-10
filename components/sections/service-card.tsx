@@ -3,13 +3,13 @@ import { ArrowRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { ServiceIcon } from "@/components/ui/service-icon";
 import { cn } from "@/lib/utils";
-import type { Service } from "@/content/services";
+import type { ServiceSummary } from "@/content/services";
 
 /**
  * Whole card is clickable via a stretched link on the service name, while
  * "Get assistance" stays a separate, independently focusable link on top.
  */
-export function ServiceCard({ service, className }: { service: Service; className?: string }) {
+export function ServiceCard({ service, className }: { service: ServiceSummary; className?: string }) {
   return (
     <Card interactive className={cn("group relative flex h-full flex-col", className)}>
       <div className="flex flex-1 flex-col p-6">

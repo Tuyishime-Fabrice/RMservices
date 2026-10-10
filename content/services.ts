@@ -726,6 +726,30 @@ export const services: Service[] = [
   },
 ];
 
+/**
+ * The fields a card or filter actually renders.
+ *
+ * Client components take this shape as a prop and import only the *type* from
+ * here, so the full catalogue — overviews, FAQs, SEO copy — stays on the
+ * server instead of being bundled into the browser's JavaScript.
+ */
+export type ServiceSummary = Pick<
+  Service,
+  "slug" | "name" | "inquiryValue" | "category" | "icon" | "summary" | "keywords"
+>;
+
+export const serviceSummaries: ServiceSummary[] = services.map(
+  ({ slug, name, inquiryValue, category, icon, summary, keywords }) => ({
+    slug,
+    name,
+    inquiryValue,
+    category,
+    icon,
+    summary,
+    keywords,
+  }),
+);
+
 /** Options shown in the "Service needed" select, in catalogue order plus "Other". */
 export const serviceInquiryOptions: string[] = [
   ...services.map((s) => s.inquiryValue),
