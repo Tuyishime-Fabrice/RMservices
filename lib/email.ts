@@ -126,9 +126,18 @@ export async function sendStaffEmail(input: StaffEmailInput): Promise<{ delivere
   const subject = sanitizeLine(input.subject).slice(0, 180);
 
   if (!config.configured) {
-    console.warn(
-      `[email] EMAIL_API_KEY is not set — inquiry ${input.reference} was NOT emailed. Submission:\n${text}`,
-    );
+    // In development the full submission is printed so the flow can be tested
+    // without a provider. In production it never is: the visitor's name, phone
+    // number and message do not belong in server logs.
+    if (process.env.NODE_ENV === "production") {
+      console.error(
+        `[email] EMAIL_API_KEY is not set — submission ${input.reference} was NOT delivered. Configure the email environment variables.`,
+      );
+    } else {
+      console.warn(
+        `[email] EMAIL_API_KEY is not set — inquiry ${input.reference} was NOT emailed. Submission:\n${text}`,
+      );
+    }
     return { delivered: false, error: "email_not_configured" };
   }
 

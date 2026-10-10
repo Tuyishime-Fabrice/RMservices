@@ -4,7 +4,6 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Analytics } from "@/components/layout/analytics";
-import { FloatingWhatsApp } from "@/components/layout/floating-whatsapp";
 import { JsonLd } from "@/components/ui/json-ld";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import { siteConfig } from "@/content/site";
@@ -84,7 +83,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         <main id="main">{children}</main>
         <Footer />
-        <FloatingWhatsApp />
         <Analytics />
       </body>
     </html>

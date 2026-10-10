@@ -7,7 +7,22 @@ import { createReference } from "@/lib/utils";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-/** Best-effort client identifier for rate limiting behind a proxy/CDN. */
+/**
+ * Best-effort client identifier for rate limiting.
+ *
+ * These headers are set by the hosting platform (Vercel sets x-forwarded-for
+ * itself, so it is trustworthy there). If this is ever self-hosted behind a
+ * proxy that passes client headers through unchecked, treat the value as
+ * spoofable and rate-limit at the proxy instead.
+ */
+/** Rejects oversized bodies before they are parsed into memory. */
+const MAX_BODY_BYTES = 32 * 1024;
+
+function bodyTooLarge(request: Request) {
+  const length = Number(request.headers.get("content-length") ?? 0);
+  return Number.isFinite(length) && length > MAX_BODY_BYTES;
+}
+
 function clientKey(request: Request) {
   const headers = request.headers;
   const forwarded = headers.get("x-forwarded-for");
@@ -31,6 +46,13 @@ export async function POST(request: Request) {
           "You have submitted several requests in a short time. Please wait a few minutes, or contact us directly by phone or WhatsApp.",
       },
       { status: 429, headers: { "Retry-After": String(limit.retryAfterSeconds) } },
+    );
+  }
+
+  if (bodyTooLarge(request)) {
+    return NextResponse.json(
+      { ok: false, error: "That request is too large. Please shorten it and try again." },
+      { status: 413 },
     );
   }
 

@@ -176,8 +176,8 @@ Nothing else in the codebase knows which provider is used.
 Set `NEXT_PUBLIC_WHATSAPP_NUMBER` (digits only, international format, e.g.
 `250784488898`). Links are built by `lib/whatsapp.ts` and appear in:
 
-- the header (full label on wide screens, icon on smaller desktops)
-- a floating button below `xl`, where the header button is hidden
+- the header: full label on wide screens, icon-only between 1280–1359px, and a
+  dedicated icon button on phones (below 640px)
 - the homepage hero and online-assistance section
 - every service page (hero + sticky request rail), pre-filled with that service
 - the contact page
@@ -318,6 +318,38 @@ Verified on this build (see "Testing results" below for what was run):
 Re-run after changes: `npm run build && npm run start`, then exercise the flows
 above. There is no automated test suite in the MVP — worth adding with
 Playwright if the site grows (see the roadmap).
+
+## Security
+
+What is in place on the form endpoints and around the data they handle:
+
+- **Server-side validation is authoritative.** The browser validates for speed
+  and friendliness; `app/api/*/route.ts` re-validates every submission with Zod
+  and rejects anything that fails, whatever the client did.
+- **Request bodies are capped** at 32 KB and rejected with `413` before parsing.
+- **Rate limiting:** 5 submissions per 10 minutes per client, per endpoint.
+  (In-memory — see the deployment note above if you scale beyond one instance.)
+- **Honeypot:** a hidden field bots fill in. A filled honeypot is accepted
+  silently and sent nowhere, so the bot learns nothing from the response.
+- **Input sanitisation:** every value interpolated into the notification email
+  is HTML-escaped, and short fields are stripped of newlines and control
+  characters, so neither the email body nor its headers can be injected.
+- **No secrets in the browser.** `lib/email.ts` and `lib/validation.ts` are
+  `server-only`; only `NEXT_PUBLIC_*` values reach the client, and none of
+  those are secret. Verified against the built client chunks.
+- **No personal data in production logs.** If email delivery is unconfigured,
+  development prints the submission for testing; production logs only the
+  reference and an error telling you to configure the provider.
+- **Consent is required** before either form can be submitted, with a link to
+  the privacy policy.
+- **Minimal collection:** contact details and a description of the request.
+  No document uploads, no payment details, no identity documents — the forms
+  say so explicitly.
+- **Security headers** set in `next.config.ts`: `X-Content-Type-Options`,
+  `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`.
+- External links use `rel="noopener noreferrer"`; the only
+  `dangerouslySetInnerHTML` is the JSON-LD block, fed exclusively from our own
+  content files and escaped.
 
 ## Accessibility
 

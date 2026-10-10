@@ -126,7 +126,7 @@ export function Navbar() {
               className="hidden items-center gap-1.5 whitespace-nowrap rounded-lg border border-line px-2.5 py-2 text-sm font-semibold text-navy-900 transition-colors hover:border-[#0E7268] hover:text-[#0E7268] sm:inline-flex xl:px-3"
             >
               <MessageCircle className="size-4" aria-hidden="true" />
-              <span className="xl:hidden min-[1360px]:inline">WhatsApp</span>
+              <span>WhatsApp</span>
             </TrackedAnchor>
 
             <Button asChild size="md" className="hidden whitespace-nowrap px-4 sm:inline-flex 2xl:px-5">
@@ -138,6 +138,20 @@ export function Navbar() {
                 Get assistance
               </TrackedLink>
             </Button>
+
+            {/* Phones: the labelled button above is hidden, so WhatsApp lives
+                here in the sticky header — always reachable, and never on top
+                of a form field the way a floating button can be. */}
+            <TrackedAnchor
+              href={whatsappUrl(defaultWhatsappMessage)}
+              external
+              event="whatsapp_click"
+              payload={{ location: "navbar-mobile" }}
+              aria-label="Chat with R&M Services Group on WhatsApp (opens in a new tab)"
+              className="hidden size-11 items-center justify-center rounded-lg bg-[#0E7268] text-white transition-colors hover:bg-[#0A6157] min-[360px]:inline-flex sm:hidden"
+            >
+              <MessageCircle className="size-5" aria-hidden="true" />
+            </TrackedAnchor>
 
             <button
               type="button"

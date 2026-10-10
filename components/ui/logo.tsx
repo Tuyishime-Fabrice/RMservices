@@ -39,7 +39,7 @@ export function Logo({
       <span className="flex flex-col leading-none">
         <span
           className={cn(
-            "whitespace-nowrap font-display text-[1.2rem] font-semibold tracking-tight sm:text-[1.3rem]",
+            "whitespace-nowrap font-display text-[1.05rem] font-semibold tracking-tight min-[400px]:text-[1.2rem] sm:text-[1.3rem]",
             tone === "dark" ? "text-navy-900" : "text-white",
           )}
         >
@@ -47,7 +47,7 @@ export function Logo({
         </span>
         <span
           className={cn(
-            "mt-1 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.16em]",
+            "mt-1 hidden whitespace-nowrap text-xs font-semibold uppercase tracking-[0.16em] min-[400px]:block",
             tone === "dark" ? "text-brand-700" : "text-brand-200",
           )}
         >

@@ -7,6 +7,14 @@ import { createReference } from "@/lib/utils";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+/** Rejects oversized bodies before they are parsed into memory. */
+const MAX_BODY_BYTES = 32 * 1024;
+
+function bodyTooLarge(request: Request) {
+  const length = Number(request.headers.get("content-length") ?? 0);
+  return Number.isFinite(length) && length > MAX_BODY_BYTES;
+}
+
 function clientKey(request: Request) {
   const headers = request.headers;
   const forwarded = headers.get("x-forwarded-for");
@@ -30,6 +38,13 @@ export async function POST(request: Request) {
           "You have sent several messages in a short time. Please wait a few minutes, or contact us directly by phone or WhatsApp.",
       },
       { status: 429, headers: { "Retry-After": String(limit.retryAfterSeconds) } },
+    );
+  }
+
+  if (bodyTooLarge(request)) {
+    return NextResponse.json(
+      { ok: false, error: "That message is too large. Please shorten it and try again." },
+      { status: 413 },
     );
   }
 
